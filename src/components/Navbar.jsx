@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
@@ -41,7 +41,7 @@ export default function Navbar() {
 
       <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', alignItems: 'center' }}>
         <NavLink to="/" className="nav-browse">Browse</NavLink>
-        {user?.is_admin && <NavLink to="/admin" accent>Admin</NavLink>}
+        {user?.is_admin && <NavLink to="/admin">Admin</NavLink>}
         {user ? (
           <>
             <NavLink to="/bookmarks" className="nav-bookmarks">Bookmarks</NavLink>
@@ -66,11 +66,13 @@ export default function Navbar() {
   )
 }
 
-function NavLink({ to, children, accent, className }) {
+function NavLink({ to, children, className }) {
+  const { pathname } = useLocation()
+  const active = pathname === to
   return (
-    <Link to={to} className={className} style={{ padding: '6px 14px', borderRadius: 7, fontSize: 14, fontWeight: 500, color: accent ? 'var(--accent)' : 'var(--muted)', transition: 'color .15s, background .15s', display: 'inline-block' }}
-      onMouseEnter={e => { e.currentTarget.style.color = accent ? 'var(--accent)' : 'var(--text)'; e.currentTarget.style.background = 'var(--surface2)' }}
-      onMouseLeave={e => { e.currentTarget.style.color = accent ? 'var(--accent)' : 'var(--muted)'; e.currentTarget.style.background = 'transparent' }}>
+    <Link to={to} className={className} style={{ padding: '6px 14px', borderRadius: 7, fontSize: 14, fontWeight: 500, transition: 'color .15s, background .15s', display: 'inline-block', color: active ? 'var(--accent)' : 'var(--muted)', background: active ? 'var(--surface2)' : 'transparent' }}
+      onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.background = 'var(--surface2)' }}
+      onMouseLeave={e => { e.currentTarget.style.color = active ? 'var(--accent)' : 'var(--muted)'; e.currentTarget.style.background = active ? 'var(--surface2)' : 'transparent' }}>
       {children}
     </Link>
   )

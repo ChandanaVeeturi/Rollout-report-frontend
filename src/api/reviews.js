@@ -7,6 +7,7 @@ export const postComment = (slug, body) => api.post(`/reviews/${slug}/comments`,
 export const deleteComment = (slug, id) => api.delete(`/reviews/${slug}/comments/${id}`)
 export const toggleUpvote = (slug) => api.post(`/reviews/${slug}/upvote`).then(r => r.data)
 export const toggleBookmark = (slug) => api.post(`/reviews/${slug}/bookmark`).then(r => r.data)
+export const getBookmarks = () => api.get('/reviews/bookmarks').then(r => r.data)
 export const getCategories = () => api.get('/categories').then(r => r.data)
 
 // Admin

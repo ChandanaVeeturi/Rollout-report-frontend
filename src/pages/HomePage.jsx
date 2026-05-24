@@ -22,7 +22,7 @@ function HeroCard({ review }) {
   })
 
   return (
-    <div style={{
+    <div className="hero-card" style={{
       margin: '32px 0 24px',
       background: 'linear-gradient(135deg, #1a1630 0%, #0e1629 60%, #0e0e14 100%)',
       border: '1px solid var(--border)', borderRadius: 18,
@@ -36,8 +36,8 @@ function HeroCard({ review }) {
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', color: 'var(--accent)', background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.25)', borderRadius: 5, padding: '3px 9px', display: 'inline-block', marginBottom: 14 }}>
           ⚡ Review of the Day
         </div>
-        <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.8px', lineHeight: 1.2, marginBottom: 10 }}>{review.title}</h1>
-        <p style={{ fontSize: 16, color: 'var(--muted)', marginBottom: 20, maxWidth: 460, lineHeight: 1.6 }}>{review.tagline}</p>
+        <h1 className="hero-title" style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.8px', lineHeight: 1.2, marginBottom: 10 }}>{review.title}</h1>
+        <p className="hero-tagline" style={{ fontSize: 16, color: 'var(--muted)', marginBottom: 20, maxWidth: 460, lineHeight: 1.6 }}>{review.tagline}</p>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 22 }}>
           <VerdictBadge verdict={review.verdict} large />
@@ -71,7 +71,7 @@ function HeroCard({ review }) {
       </div>
 
       {/* hero image */}
-      <div style={{ width: 240, height: 160, borderRadius: 12, background: 'linear-gradient(135deg, #2a2060 0%, #1a3060 100%)', border: '1px solid var(--border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>
+      <div className="hero-image" style={{ width: 240, height: 160, borderRadius: 12, background: 'linear-gradient(135deg, #2a2060 0%, #1a3060 100%)', border: '1px solid var(--border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>
         {review.hero_image_url
           ? <img src={review.hero_image_url} alt={review.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12 }} />
           : <span>{review.category?.icon || '📦'}</span>
@@ -120,7 +120,7 @@ export default function HomePage() {
   const showHero = !q && sort === 'recent' && page === 1 && pinned
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px' }}>
       {showHero && <HeroCard review={pinned} />}
 
       {/* feed header */}
@@ -141,7 +141,7 @@ export default function HomePage() {
       </div>
 
       {/* content grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 24, alignItems: 'start' }}>
+      <div className="home-grid">
 
         {/* feed */}
         <div>
@@ -173,7 +173,7 @@ export default function HomePage() {
         </div>
 
         {/* sidebar */}
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <aside className="home-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
           <SidebarCard title="Categories">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>

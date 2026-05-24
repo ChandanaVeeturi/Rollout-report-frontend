@@ -26,6 +26,7 @@ export default function ReviewCard({ review, rank }) {
 
   return (
     <div
+      className="rcard"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -37,12 +38,12 @@ export default function ReviewCard({ review, rank }) {
       }}
     >
       {/* rank */}
-      <span style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, width: 20, textAlign: 'center', flexShrink: 0 }}>
+      <span className="rcard-rank" style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, width: 20, textAlign: 'center', flexShrink: 0 }}>
         {rank}
       </span>
 
       {/* thumb */}
-      <div style={{
+      <div className="rcard-thumb" style={{
         width: 52, height: 52, borderRadius: 10, flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 26, border: '1px solid var(--border)',

@@ -100,7 +100,7 @@ export default function ReviewDetailPage() {
   )
 
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 24px 80px' }}>
+    <div className="detail-root" style={{ maxWidth: 720, margin: '0 auto', padding: '36px 24px 80px' }}>
       <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, color: 'var(--muted)', marginBottom: 32, transition: 'color .15s' }}
         onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
         onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}>
@@ -114,7 +114,7 @@ export default function ReviewDetailPage() {
         </div>
       )}
 
-      <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.8px', lineHeight: 1.2, marginBottom: 8 }}>{review.title}</h1>
+      <h1 className="detail-h1" style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.8px', lineHeight: 1.2, marginBottom: 8 }}>{review.title}</h1>
       <p style={{ fontSize: 16, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 20 }}>{review.tagline}</p>
 
       {/* meta row */}
@@ -175,20 +175,20 @@ export default function ReviewDetailPage() {
 
         {user ? (
           <div style={{ marginBottom: 24 }}>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <textarea
-                value={commentText}
-                onChange={e => setCommentText(e.target.value)}
-                placeholder="Share your experience…"
-                rows={3}
-                style={{ flex: 1, background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', fontSize: 14, color: 'var(--text)', resize: 'none', outline: 'none', fontFamily: 'inherit', transition: 'border-color .15s' }}
-                onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
-              />
+            <textarea
+              value={commentText}
+              onChange={e => setCommentText(e.target.value)}
+              placeholder="Share your experience…"
+              rows={3}
+              style={{ width: '100%', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', fontSize: 14, color: 'var(--text)', resize: 'none', outline: 'none', fontFamily: 'inherit', transition: 'border-color .15s', marginBottom: 8 }}
+              onFocus={e => e.target.style.borderColor = 'var(--accent)'}
+              onBlur={e => e.target.style.borderColor = 'var(--border)'}
+            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button
                 disabled={!commentText.trim() || commentMut.isPending}
                 onClick={() => commentMut.mutate(commentText)}
-                style={{ alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', opacity: !commentText.trim() ? 0.5 : 1, transition: 'opacity .15s' }}>
+                style={{ background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer', opacity: !commentText.trim() ? 0.5 : 1, transition: 'opacity .15s' }}>
                 {commentMut.isPending ? '…' : 'Post'}
               </button>
             </div>

@@ -13,7 +13,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav style={{
+    <nav className="nav-root" style={{
       position: 'sticky', top: 0, zIndex: 100,
       background: 'rgba(14,14,20,0.85)', backdropFilter: 'blur(12px)',
       borderBottom: '1px solid var(--border)',
@@ -25,7 +25,7 @@ export default function Navbar() {
         <span><span style={{ color: 'var(--accent)' }}>Rollout</span> Report</span>
       </Link>
 
-      <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: 360 }}>
+      <form className="nav-search" onSubmit={handleSearch} style={{ flex: 1, maxWidth: 360 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '0 12px', height: 36 }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
@@ -40,11 +40,11 @@ export default function Navbar() {
       </form>
 
       <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', alignItems: 'center' }}>
-        <NavLink to="/">Browse</NavLink>
+        <NavLink to="/" className="nav-browse">Browse</NavLink>
         {user?.is_admin && <NavLink to="/admin" accent>Admin</NavLink>}
         {user ? (
           <>
-            <NavLink to="/bookmarks">Bookmarks</NavLink>
+            <NavLink to="/bookmarks" className="nav-bookmarks">Bookmarks</NavLink>
             <button onClick={logout} style={{ padding: '6px 14px', borderRadius: 7, fontSize: 14, fontWeight: 500, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color .15s' }}
               onMouseEnter={e => { e.target.style.color = 'var(--text)'; e.target.style.background = 'var(--surface2)' }}
               onMouseLeave={e => { e.target.style.color = 'var(--muted)'; e.target.style.background = 'none' }}>
@@ -66,9 +66,9 @@ export default function Navbar() {
   )
 }
 
-function NavLink({ to, children, accent }) {
+function NavLink({ to, children, accent, className }) {
   return (
-    <Link to={to} style={{ padding: '6px 14px', borderRadius: 7, fontSize: 14, fontWeight: 500, color: accent ? 'var(--accent)' : 'var(--muted)', transition: 'color .15s, background .15s', display: 'inline-block' }}
+    <Link to={to} className={className} style={{ padding: '6px 14px', borderRadius: 7, fontSize: 14, fontWeight: 500, color: accent ? 'var(--accent)' : 'var(--muted)', transition: 'color .15s, background .15s', display: 'inline-block' }}
       onMouseEnter={e => { e.currentTarget.style.color = accent ? 'var(--accent)' : 'var(--text)'; e.currentTarget.style.background = 'var(--surface2)' }}
       onMouseLeave={e => { e.currentTarget.style.color = accent ? 'var(--accent)' : 'var(--muted)'; e.currentTarget.style.background = 'transparent' }}>
       {children}

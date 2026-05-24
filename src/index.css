@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0e0e14;
+  --surface:   #16161f;
+  --surface2:  #1e1e2a;
+  --border:    #2a2a3a;
+  --accent:    #7c6ff7;
+  --accent-dim:#4e47b8;
+  --green:     #22c55e;
+  --orange:    #f97316;
+  --red:       #ef4444;
+  --text:      #e5e5f0;
+  --muted:     #7e7e9a;
+  --font:      'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+#root { min-height: 100vh; }
+
+/* ── prose for review body ── */
+.prose-review h2, .prose-review h3 {
+  color: var(--text); font-weight: 700; margin: 1.6rem 0 0.5rem;
+}
+.prose-review h2 { font-size: 1.15rem; }
+.prose-review h3 { font-size: 1.05rem; }
+.prose-review p  { color: #c8c8e0; margin-bottom: 0.9rem; line-height: 1.8; font-size: 0.95rem; }
+.prose-review ul, .prose-review ol { color: #c8c8e0; padding-left: 1.4rem; margin-bottom: 0.9rem; }
+.prose-review li { margin-bottom: 0.35rem; line-height: 1.7; font-size: 0.95rem; }
+.prose-review strong { color: var(--text); font-weight: 600; }
+.prose-review code {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px; font-size: 0.83em; color: #a78bfa;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}

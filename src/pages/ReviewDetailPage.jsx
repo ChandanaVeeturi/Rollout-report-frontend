@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import ReactMarkdown from 'react-markdown'
@@ -60,6 +60,11 @@ export default function ReviewDetailPage() {
     queryKey: ['review', slug],
     queryFn: () => getReview(slug),
   })
+
+  useEffect(() => {
+    if (review) document.title = `${review.title} — The Rollout Report`
+    return () => { document.title = 'The Rollout Report' }
+  }, [review])
 
   const { data: comments = [] } = useQuery({
     queryKey: ['comments', slug],

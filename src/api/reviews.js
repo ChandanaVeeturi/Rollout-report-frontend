@@ -39,7 +39,9 @@ function applyUserState(reviews) {
 
 export async function getReviews(params) {
   try {
-    return await api.get('/reviews', { params }).then(r => r.data)
+    const data = await api.get('/reviews', { params }).then(r => r.data)
+    if (!Array.isArray(data?.items)) throw new Error('invalid')
+    return data
   } catch {
     const result = filterReviews(params)
     return { ...result, items: applyUserState(result.items) }
@@ -48,7 +50,9 @@ export async function getReviews(params) {
 
 export async function getReview(slug) {
   try {
-    return await api.get(`/reviews/${slug}`).then(r => r.data)
+    const data = await api.get(`/reviews/${slug}`).then(r => r.data)
+    if (!data?.slug) throw new Error('invalid')
+    return data
   } catch {
     const review = MOCK_REVIEWS.find(r => r.slug === slug)
     if (!review) throw new Error('Not found')
@@ -63,7 +67,9 @@ export async function getReview(slug) {
 
 export async function getComments(slug) {
   try {
-    return await api.get(`/reviews/${slug}/comments`).then(r => r.data)
+    const data = await api.get(`/reviews/${slug}/comments`).then(r => r.data)
+    if (!Array.isArray(data)) throw new Error('invalid')
+    return data
   } catch {
     return MOCK_COMMENTS[slug] || []
   }
@@ -123,7 +129,9 @@ export const getBookmarks = () =>
 
 export async function getCategories() {
   try {
-    return await api.get('/categories').then(r => r.data)
+    const data = await api.get('/categories').then(r => r.data)
+    if (!Array.isArray(data)) throw new Error('invalid')
+    return data
   } catch {
     return MOCK_CATEGORIES
   }

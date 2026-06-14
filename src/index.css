@@ -1,20 +1,33 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #0e0e14;
-  --surface:   #16161f;
-  --surface2:  #1e1e2a;
-  --border:    #2a2a3a;
-  --accent:    #7c6ff7;
-  --accent-dim:#4e47b8;
-  --green:     #22c55e;
-  --orange:    #f97316;
-  --red:       #ef4444;
-  --text:      #e5e5f0;
-  --muted:     #7e7e9a;
-  --font:      'Inter', system-ui, -apple-system, sans-serif;
+  --bg:            #F5F5F5;
+  --surface:       #FFFFFF;
+  --surface2:      #F9F9F9;
+  --border:        #E8E8E8;
+  --border-hover:  #D0D0D0;
+  --accent:        #FF6154;
+  --accent-dim:    #E0473A;
+  --accent-soft:   #FFF1F0;
+  --accent-border: #FFCDC9;
+  --green:         #1E8449;
+  --green-bg:      #E8F8EE;
+  --green-border:  #BBE8CC;
+  --amber:         #B7770D;
+  --amber-bg:      #FEF3E8;
+  --amber-border:  #F5CFA0;
+  --red:           #C0392B;
+  --red-bg:        #FDECEA;
+  --red-border:    #F5C0BB;
+  --text:          #1A1A2E;
+  --text2:         #4B587C;
+  --muted:         #9E9E9E;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.08);
+  --font:          'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
 body {
@@ -27,6 +40,7 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+button { font-family: var(--font); }
 #root { min-height: 100vh; }
 
 /* ── prose for review body ── */
@@ -35,42 +49,36 @@ a { color: inherit; text-decoration: none; }
 }
 .prose-review h2 { font-size: 1.15rem; }
 .prose-review h3 { font-size: 1.05rem; }
-.prose-review p  { color: #c8c8e0; margin-bottom: 0.9rem; line-height: 1.8; font-size: 0.95rem; }
-.prose-review ul, .prose-review ol { color: #c8c8e0; padding-left: 1.4rem; margin-bottom: 0.9rem; }
+.prose-review p  { color: var(--text2); margin-bottom: 0.9rem; line-height: 1.8; font-size: 0.95rem; }
+.prose-review ul, .prose-review ol { color: var(--text2); padding-left: 1.4rem; margin-bottom: 0.9rem; }
 .prose-review li { margin-bottom: 0.35rem; line-height: 1.7; font-size: 0.95rem; }
 .prose-review strong { color: var(--text); font-weight: 600; }
 .prose-review code {
   background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 4px; padding: 1px 6px; font-size: 0.83em; color: #a78bfa;
+  border-radius: 4px; padding: 1px 6px; font-size: 0.83em; color: var(--accent);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
-/* ── layout helpers (desktop) ── */
-.home-grid { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
+/* ── layout helpers ── */
+.home-grid { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
 
 /* ── mobile ── */
 @media (max-width: 640px) {
-  /* Navbar */
   .nav-root    { padding: 8px 16px !important; flex-wrap: wrap; height: auto !important; min-height: 52px; row-gap: 6px; }
   .nav-search  { order: 3; width: 100%; max-width: 100% !important; }
   .nav-browse, .nav-bookmarks { display: none !important; }
 
-  /* Hero card */
   .hero-card   { flex-direction: column !important; padding: 20px 16px !important; margin: 16px 0 16px !important; gap: 16px !important; }
-  .hero-image  { width: 100% !important; height: 140px !important; flex-shrink: unset !important; }
   .hero-title  { font-size: 22px !important; letter-spacing: -0.4px !important; }
   .hero-tagline{ font-size: 14px !important; }
 
-  /* Content grid + sidebar */
   .home-grid   { grid-template-columns: 1fr; }
   .home-sidebar{ display: none !important; }
 
-  /* Review card */
   .rcard       { padding: 12px 14px !important; gap: 10px !important; }
   .rcard-rank  { display: none !important; }
   .rcard-thumb { width: 40px !important; height: 40px !important; font-size: 20px !important; }
 
-  /* Detail page */
   .detail-root { padding: 20px 16px 60px !important; }
   .detail-h1   { font-size: 24px !important; }
 }

@@ -1,7 +1,7 @@
 const MAP = {
-  recommended:    { label: '✓ Recommended',    bg: 'rgba(34,197,94,0.12)',  color: '#22c55e', border: 'rgba(34,197,94,0.25)' },
-  worth_watching: { label: '👁 Worth Watching', bg: 'rgba(249,115,22,0.12)', color: '#f97316', border: 'rgba(249,115,22,0.25)' },
-  skip_it:        { label: '✗ Skip It',         bg: 'rgba(239,68,68,0.12)',  color: '#ef4444', border: 'rgba(239,68,68,0.25)' },
+  recommended:    { label: '✓ Recommended',    bg: 'var(--green-bg)',  color: 'var(--green)', border: 'var(--green-border)' },
+  worth_watching: { label: '👁 Worth Watching', bg: 'var(--amber-bg)',  color: 'var(--amber)', border: 'var(--amber-border)' },
+  skip_it:        { label: '✗ Skip It',         bg: 'var(--red-bg)',    color: 'var(--red)',   border: 'var(--red-border)'   },
 }
 
 export default function VerdictBadge({ verdict, large }) {
@@ -11,7 +11,7 @@ export default function VerdictBadge({ verdict, large }) {
       fontSize: large ? 12 : 11, fontWeight: 700,
       padding: large ? '4px 10px' : '3px 8px',
       borderRadius: 6, background: v.bg, color: v.color,
-      border: `1px solid ${v.border}`, display: 'inline-block',
+      border: `1px solid ${v.border}`, display: 'inline-block', whiteSpace: 'nowrap',
     }}>
       {v.label}
     </span>

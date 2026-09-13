@@ -20,6 +20,14 @@ export function AuthProvider({ children }) {
     } else {
       setLoading(false)
     }
+
+    // Fired by client.js when a refresh token attempt fails (expired or revoked)
+    function handleForceLogout() {
+      setUser(null)
+      // Let the page handle the redirect; we just clear state here
+    }
+    window.addEventListener('auth:logout', handleForceLogout)
+    return () => window.removeEventListener('auth:logout', handleForceLogout)
   }, [])
 
   async function login(email, password) {

@@ -29,6 +29,8 @@ api.interceptors.response.use(
         } catch {
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
+          // Notify AuthContext so it can clear user state and redirect
+          window.dispatchEvent(new CustomEvent('auth:logout'))
         }
       }
     }

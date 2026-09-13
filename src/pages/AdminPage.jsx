@@ -112,7 +112,8 @@ export default function AdminPage() {
 
   if (!user?.is_admin) { navigate('/'); return null }
 
-  const { data: reviews = [], isLoading } = useQuery({ queryKey: ['admin-reviews'], queryFn: adminGetReviews })
+  const { data: reviewsData, isLoading } = useQuery({ queryKey: ['admin-reviews'], queryFn: adminGetReviews })
+  const reviews = reviewsData?.items ?? []
   const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: getCategories })
 
   const createMut = useMutation({ mutationFn: adminCreateReview, onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-reviews'] }); setEditing(null) } })

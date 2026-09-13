@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toggleUpvote, toggleBookmark } from '../api/reviews'
+import { toggleUpvote } from '../api/reviews'
 import { useAuth } from '../context/AuthContext'
 import VerdictBadge from './VerdictBadge'
+
+const RANK_ICONS = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
 export default function ReviewCard({ review, rank }) {
   const { user } = useAuth()
@@ -13,14 +15,19 @@ export default function ReviewCard({ review, rank }) {
 
   const upvoteMut = useMutation({
     mutationFn: () => toggleUpvote(review.slug),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['reviews'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['reviews'] })
+      qc.invalidateQueries({ queryKey: ['review', review.slug] })
+    },
   })
 
   function handleUpvote(e) {
     e.preventDefault()
-    if (!user) { navigate('/login'); return }
+    if (!user) { navigate('/login', { state: { from: `/reviews/${review.slug}` } }); return }
     upvoteMut.mutate()
   }
+
+  const rankDisplay = RANK_ICONS[rank] || rank
 
   return (
     <div
@@ -35,8 +42,13 @@ export default function ReviewCard({ review, rank }) {
         transition: 'background .12s',
       }}
     >
-      <span className="rcard-rank" style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 700, width: 18, textAlign: 'center', flexShrink: 0 }}>
-        {rank}
+      <span className="rcard-rank" style={{
+        fontSize: rank <= 3 ? 16 : 12,
+        color: rank <= 3 ? 'inherit' : 'var(--muted)',
+        fontWeight: 700, width: 22, textAlign: 'center', flexShrink: 0,
+        lineHeight: 1,
+      }}>
+        {rankDisplay}
       </span>
 
       <div className="rcard-thumb" style={{
@@ -45,7 +57,9 @@ export default function ReviewCard({ review, rank }) {
         fontSize: 24, border: '1.5px solid var(--border)',
         background: 'var(--bg)', overflow: 'hidden',
       }}>
-        {review.category?.icon || '📦'}
+        {review.hero_image_url
+          ? <img src={review.hero_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : review.category?.icon || '📦'}
       </div>
 
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -82,14 +96,19 @@ export default function ReviewCard({ review, rank }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
         <VerdictBadge verdict={review.verdict} />
 
-        <div style={{ fontSize: 12, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ fontSize: 12, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 4 }} title={`${review.comment_count} comment${review.comment_count !== 1 ? 's' : ''}`}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
           {review.comment_count}
         </div>
 
-        <UpvoteBox count={review.upvote_count} active={review.user_has_upvoted} onClick={handleUpvote} loading={upvoteMut.isPending} />
+        <UpvoteBox
+          count={review.upvote_count}
+          active={review.user_has_upvoted}
+          onClick={handleUpvote}
+          loading={upvoteMut.isPending}
+        />
       </div>
     </div>
   )
@@ -97,13 +116,23 @@ export default function ReviewCard({ review, rank }) {
 
 export function UpvoteBox({ count, active, onClick, loading }) {
   const [hov, setHov] = useState(false)
+  const [pop, setPop] = useState(false)
   const highlight = active || hov
+
+  function handleClick(e) {
+    setPop(true)
+    onClick(e)
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       disabled={loading}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
+      onAnimationEnd={() => setPop(false)}
+      className={pop ? 'upvote-pop' : ''}
+      aria-label={`${active ? 'Remove upvote' : 'Upvote'} — ${count} votes`}
       style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
         minWidth: 52, padding: '7px 10px', borderRadius: 10,

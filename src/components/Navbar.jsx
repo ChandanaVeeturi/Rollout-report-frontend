@@ -1,16 +1,43 @@
-import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+
+function useDarkMode() {
+  const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem('theme') === 'dark'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : '')
+    localStorage.setItem('theme', dark ? 'dark' : 'light')
+  }, [dark])
+
+  return [dark, () => setDark(d => !d)]
+}
 
 export default function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const [q, setQ] = useState('')
+  const location = useLocation()
+  const [searchParams] = useSearchParams()
+  const [dark, toggleDark] = useDarkMode()
   const [searchFocus, setSearchFocus] = useState(false)
+
+  // Keep search box in sync with URL on the home page; clear it elsewhere
+  const urlQ = location.pathname === '/' ? (searchParams.get('q') || '') : ''
+  const [q, setQ] = useState(urlQ)
+  useEffect(() => { setQ(urlQ) }, [urlQ])
 
   function handleSearch(e) {
     e.preventDefault()
-    if (q.trim()) navigate(`/?q=${encodeURIComponent(q.trim())}`)
+    const term = q.trim()
+    if (term) navigate(`/?q=${encodeURIComponent(term)}`)
+    else navigate('/')
+  }
+
+  function handleSignIn() {
+    navigate('/login', { state: { from: location.pathname + location.search } })
   }
 
   return (
@@ -54,16 +81,36 @@ export default function Navbar() {
             placeholder="Search reviews…"
             style={{ background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: 14, width: '100%', fontFamily: 'var(--font)' }}
           />
+          {q && (
+            <button type="button" onClick={() => { setQ(''); navigate('/') }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 16, lineHeight: 1, padding: '0 2px', flexShrink: 0 }}>
+              ×
+            </button>
+          )}
         </div>
       </form>
 
       <div style={{ display: 'flex', gap: 2, marginLeft: 12, alignItems: 'center' }}>
         <NavLink to="/" className="nav-browse">Launches</NavLink>
-        <NavLink to="/" className="nav-browse">Topics</NavLink>
         {user?.is_admin && <NavLink to="/admin">Admin</NavLink>}
       </div>
 
-      <div style={{ display: 'flex', gap: 10, marginLeft: 'auto', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, marginLeft: 'auto', alignItems: 'center' }}>
+        {/* Dark mode toggle */}
+        <button
+          onClick={toggleDark}
+          title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{
+            width: 34, height: 34, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--bg)', border: '1.5px solid var(--border)', cursor: 'pointer', fontSize: 15,
+            transition: 'border-color .15s, background .15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.background = 'var(--surface2)' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg)' }}
+        >
+          {dark ? '☀️' : '🌙'}
+        </button>
+
         {user ? (
           <>
             <NavLink to="/bookmarks" className="nav-bookmarks">Bookmarks</NavLink>
@@ -71,8 +118,8 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <GhostBtn onClick={() => navigate('/login')}>Sign in</GhostBtn>
-            <Link to="/register" style={{
+            <GhostBtn onClick={handleSignIn}>Sign in</GhostBtn>
+            <Link to="/register" state={{ from: location.pathname + location.search }} style={{
               background: 'var(--accent)', color: '#fff', borderRadius: 8,
               padding: '7px 16px', fontSize: 14, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 5,
               transition: 'background .15s',

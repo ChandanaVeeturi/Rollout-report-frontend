@@ -12,13 +12,18 @@ const SORTS = [
   { key: 'trending', label: 'Trending' },
 ]
 
+const PLATFORMS = ['macOS', 'Windows', 'Linux', 'Web', 'iOS', 'Android']
+
 function HeroCard({ review }) {
   const { user } = useAuth()
   const navigate = useNavigate()
   const qc = useQueryClient()
   const upvoteMut = useMutation({
     mutationFn: () => toggleUpvote(review.slug),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['reviews'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['reviews'] })
+      qc.invalidateQueries({ queryKey: ['review', review.slug] })
+    },
   })
 
   return (
@@ -30,7 +35,7 @@ function HeroCard({ review }) {
       position: 'relative', overflow: 'hidden',
       boxShadow: 'var(--shadow-sm)', transition: 'box-shadow .15s',
     }}>
-      <div style={{
+      <div className="rotd-badge" style={{
         position: 'absolute', top: 14, right: 16,
         fontSize: 11, fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase',
         color: 'var(--accent)', background: 'var(--accent-soft)', border: '1px solid var(--accent-border)',
@@ -39,12 +44,11 @@ function HeroCard({ review }) {
         ⚡ Review of the Day
       </div>
 
-      {/* icon */}
       <div style={{
         width: 76, height: 76, borderRadius: 18, flexShrink: 0,
         border: '1.5px solid var(--border)', overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 38, background: '#F0F0F0',
+        fontSize: 38, background: 'var(--surface2)',
         boxShadow: 'var(--shadow-sm)',
       }}>
         {review.hero_image_url
@@ -88,7 +92,7 @@ function HeroCard({ review }) {
             border: '1.5px solid var(--accent-border)', borderRadius: 8, background: 'var(--accent-soft)',
             transition: 'background .12s',
           }}
-            onMouseEnter={e => e.currentTarget.style.background = '#FFE5E3'}
+            onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-border)'}
             onMouseLeave={e => e.currentTarget.style.background = 'var(--accent-soft)'}>
             Read Full Review →
           </Link>
@@ -97,7 +101,7 @@ function HeroCard({ review }) {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
-              {review.comment_count} comments
+              {review.comment_count}
             </span>
           )}
         </div>
@@ -123,17 +127,47 @@ function SidebarCard({ title, children }) {
   )
 }
 
+function CatItem({ label, active, onClick }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <button onClick={onClick}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '7px 8px', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 500,
+        border: 'none',
+        background: active ? 'var(--accent-soft)' : hov ? 'var(--bg)' : 'transparent',
+        color: active ? 'var(--accent)' : 'var(--text2)',
+        transition: 'background .12s, color .12s', width: '100%', textAlign: 'left',
+      }}>
+      {label}
+      {active && <span style={{ fontSize: 10 }}>✕</span>}
+    </button>
+  )
+}
+
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const sort     = searchParams.get('sort') || 'recent'
   const category = searchParams.get('category') || ''
   const verdict  = searchParams.get('verdict') || ''
+  const platform = searchParams.get('platform') || ''
+  const tag      = searchParams.get('tag') || ''
   const q        = searchParams.get('q') || ''
   const page     = parseInt(searchParams.get('page') || '1')
 
   const { data, isLoading } = useQuery({
-    queryKey: ['reviews', { sort, category, verdict, q, page }],
-    queryFn: () => getReviews({ sort, category: category || undefined, verdict: verdict || undefined, q: q || undefined, page }),
+    queryKey: ['reviews', { sort, category, verdict, platform, tag, q, page }],
+    queryFn: () => getReviews({
+      sort,
+      category: category || undefined,
+      verdict:  verdict  || undefined,
+      platform: platform || undefined,
+      tag:      tag      || undefined,
+      q:        q        || undefined,
+      page,
+    }),
   })
 
   const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: getCategories })
@@ -145,14 +179,27 @@ export default function HomePage() {
     setSearchParams(p)
   }
 
+  function clearAll() {
+    setSearchParams({})
+  }
+
+  const hasFilters = verdict || category || platform || tag || q
   const pinned   = data?.items?.find(r => r.is_pinned) || data?.items?.[0]
-  const showHero = !q && sort === 'recent' && page === 1 && pinned
+  const showHero = !q && !tag && sort === 'recent' && page === 1 && pinned
 
   return (
     <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 24px' }}>
       {showHero && <HeroCard review={pinned} />}
 
-      {/* tabs + filters row */}
+      {/* Active filters banner */}
+      {(tag || q) && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '16px 0 8px', flexWrap: 'wrap' }}>
+          {q && <FilterChip label={`Search: "${q}"`} onRemove={() => setParam('q', '')} />}
+          {tag && <FilterChip label={`Tag: #${tag}`} onRemove={() => setParam('tag', '')} />}
+        </div>
+      )}
+
+      {/* Sort tabs */}
       <div style={{ borderBottom: '2px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0 }}>
         <div style={{ display: 'flex', gap: 0 }}>
           {SORTS.map(s => (
@@ -167,27 +214,27 @@ export default function HomePage() {
             </button>
           ))}
         </div>
-        {(verdict || category || q) && (
-          <button onClick={() => { setParam('verdict', ''); setParam('category', ''); setParam('q', '') }}
+        {hasFilters && (
+          <button onClick={clearAll}
             style={{ fontSize: 13, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0' }}>
             Clear filters ×
           </button>
         )}
       </div>
 
-      {/* content grid */}
+      {/* Content grid */}
       <div className="home-grid" style={{ marginTop: 12 }}>
 
-        {/* feed */}
+        {/* Feed */}
         <div>
           {isLoading ? (
             <div style={{ background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
               {[...Array(6)].map((_, i) => (
-                <div key={i} style={{ height: 84, borderBottom: '1px solid var(--border)', background: 'var(--surface)', opacity: 1 - i * 0.12 }} />
+                <div key={i} className="skeleton" style={{ height: 84, borderBottom: '1px solid var(--border)', borderRadius: 0, opacity: 1 - i * 0.12 }} />
               ))}
             </div>
           ) : !data?.items?.length ? (
-            <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--muted)' }}>No reviews yet.</div>
+            <EmptyFeed hasFilters={!!hasFilters} onClear={clearAll} />
           ) : (
             <div style={{ background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
               {data.items.map((r, i) => (
@@ -196,7 +243,7 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* pagination */}
+          {/* Pagination */}
           {data?.pages > 1 && (
             <div style={{ display: 'flex', justifyContent: 'center', gap: 6, margin: '20px 0' }}>
               {[...Array(data.pages)].map((_, i) => (
@@ -215,14 +262,30 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* sidebar */}
+        {/* Sidebar */}
         <aside className="home-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
 
           <SidebarCard title="Topics">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <CatItem label="All" active={!category} onClick={() => setParam('category', '')} />
+              <CatItem label="All Topics" active={!category} onClick={() => setParam('category', '')} />
               {categories.map(c => (
-                <CatItem key={c.id} label={`${c.icon} ${c.name}`} active={category === c.slug} onClick={() => setParam('category', c.slug)} />
+                <CatItem key={c.id} label={`${c.icon} ${c.name}`} active={category === c.slug} onClick={() => setParam('category', category === c.slug ? '' : c.slug)} />
+              ))}
+            </div>
+          </SidebarCard>
+
+          <SidebarCard title="Platform">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {PLATFORMS.map(p => (
+                <button key={p} onClick={() => setParam('platform', platform === p ? '' : p)} style={{
+                  fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 6, cursor: 'pointer', border: '1.5px solid',
+                  borderColor: platform === p ? 'var(--accent)' : 'var(--border)',
+                  background: platform === p ? 'var(--accent-soft)' : 'var(--bg)',
+                  color: platform === p ? 'var(--accent)' : 'var(--text2)',
+                  transition: 'all .12s',
+                }}>
+                  {p}
+                </button>
               ))}
             </div>
           </SidebarCard>
@@ -243,7 +306,7 @@ export default function HomePage() {
           <SidebarCard title="Verdict Guide">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               {[
-                { v: 'recommended',    desc: 'Use it now, worth the switch.' },
+                { v: 'recommended',    desc: 'Use it now. Worth the switch.' },
                 { v: 'worth_watching', desc: 'Promising, not daily-driver ready.' },
                 { v: 'skip_it',        desc: 'Wait for the next version.' },
               ].map(({ v, desc }) => (
@@ -263,22 +326,36 @@ export default function HomePage() {
   )
 }
 
-function CatItem({ label, active, onClick }) {
-  const [hov, setHov] = useState(false)
+function FilterChip({ label, onRemove }) {
   return (
-    <button onClick={onClick}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '7px 8px', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 500,
-        border: 'none',
-        background: active ? 'var(--accent-soft)' : hov ? 'var(--bg)' : 'transparent',
-        color: active ? 'var(--accent)' : 'var(--text2)',
-        transition: 'background .12s, color .12s', width: '100%', textAlign: 'left',
-      }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 6, background: 'var(--accent-soft)', border: '1px solid var(--accent-border)', color: 'var(--accent)' }}>
       {label}
-    </button>
+      <button onClick={onRemove} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent)', fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
+    </span>
+  )
+}
+
+function EmptyFeed({ hasFilters, onClear }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '80px 24px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 12 }}>
+      <div style={{ fontSize: 48, marginBottom: 16 }}>📭</div>
+      {hasFilters ? (
+        <>
+          <p style={{ color: 'var(--text2)', fontSize: 16, fontWeight: 600, marginBottom: 8 }}>No reviews match your filters</p>
+          <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 20 }}>Try a different combination or clear the filters.</p>
+          <button onClick={onClear} style={{ fontSize: 14, fontWeight: 600, color: 'var(--accent)', background: 'var(--accent-soft)', border: '1.5px solid var(--accent-border)', borderRadius: 8, padding: '8px 20px', cursor: 'pointer' }}>
+            Clear filters
+          </button>
+        </>
+      ) : (
+        <>
+          <p style={{ color: 'var(--text2)', fontSize: 16, fontWeight: 600, marginBottom: 8 }}>Nothing here yet</p>
+          <p style={{ color: 'var(--muted)', fontSize: 14 }}>
+            The editor is probably arguing with a changelog right now. Check back soon.
+          </p>
+        </>
+      )}
+    </div>
   )
 }
 
@@ -301,12 +378,8 @@ function Footer() {
       </span>
 
       <div style={{ display: 'flex', gap: 20 }}>
-        {['About', 'Archive', 'RSS'].map(l => (
-          <a key={l} href="#" style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 500, transition: 'color .12s' }}
-            onMouseEnter={e => e.target.style.color = 'var(--text)'}
-            onMouseLeave={e => e.target.style.color = 'var(--muted)'}>
-            {l}
-          </a>
+        {['About', 'Archive'].map(l => (
+          <span key={l} style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 500 }}>{l}</span>
         ))}
       </div>
     </footer>

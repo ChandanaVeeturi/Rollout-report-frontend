@@ -148,106 +148,124 @@ function CatItem({ label, active, onClick }) {
 }
 
 function SunglassesCat() {
+  const C = '#1a34d4', W = 'white'
   return (
-    <svg width="100" height="108" viewBox="0 0 100 108" fill="none">
-      {/* ears */}
-      <polygon points="16,44 6,12 34,28" fill="#1a34d4"/>
-      <polygon points="84,44 94,12 66,28" fill="#1a34d4"/>
-      {/* head */}
-      <circle cx="50" cy="64" r="36" fill="#1a34d4"/>
-      {/* sunglasses left */}
-      <circle cx="34" cy="59" r="14" fill="#d8f5e4"/>
-      {/* sunglasses right */}
-      <circle cx="66" cy="59" r="14" fill="#d8f5e4"/>
+    <svg width="116" height="118" viewBox="0 0 116 118" fill="none">
+      {/* full cat head silhouette — ears built into path */}
+      <path d="M22 44 L6 8 L40 32 Q58 26 76 32 L110 8 L94 44 Q112 56 108 80 Q100 110 58 114 Q16 110 8 80 Q4 56 22 44Z"
+        fill={W} stroke={C} strokeWidth="2.5" strokeLinejoin="round"/>
+      {/* left inner ear */}
+      <path d="M10 12 L36 34 L22 44Z" fill={C}/>
+      {/* right inner ear */}
+      <path d="M106 12 L80 34 L94 44Z" fill={C}/>
+      {/* left sunglass lens — large oval */}
+      <ellipse cx="38" cy="62" rx="20" ry="17" fill={C}/>
+      {/* right sunglass lens */}
+      <ellipse cx="78" cy="62" rx="20" ry="17" fill={C}/>
       {/* bridge */}
-      <line x1="48" y1="59" x2="52" y2="59" stroke="#1a34d4" strokeWidth="3.5" strokeLinecap="round"/>
-      {/* left arm */}
-      <line x1="20" y1="55" x2="8" y2="52" stroke="#d8f5e4" strokeWidth="2.5" strokeLinecap="round"/>
-      {/* right arm */}
-      <line x1="80" y1="55" x2="92" y2="52" stroke="#d8f5e4" strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="58" y1="62" x2="58" y2="62" stroke={C} strokeWidth="3"/>
+      {/* left temple */}
+      <line x1="18" y1="55" x2="4" y2="50" stroke={C} strokeWidth="3" strokeLinecap="round"/>
+      {/* right temple */}
+      <line x1="98" y1="55" x2="112" y2="50" stroke={C} strokeWidth="3" strokeLinecap="round"/>
       {/* nose */}
-      <circle cx="50" cy="73" r="3" fill="#d8f5e4"/>
+      <path d="M54 80 L58 77 L62 80Z" fill={C}/>
       {/* mouth */}
-      <path d="M42 79 Q50 88 58 79" stroke="#d8f5e4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-      {/* whiskers */}
-      <line x1="4" y1="70" x2="32" y2="73" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="4" y1="77" x2="32" y2="77" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="68" y1="73" x2="96" y2="70" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="68" y1="77" x2="96" y2="77" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M50 85 Q58 94 66 85" stroke={C} strokeWidth="2" fill="none" strokeLinecap="round"/>
+      {/* left whiskers */}
+      <line x1="2" y1="78" x2="34" y2="80" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="85" x2="34" y2="85" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="92" x2="34" y2="90" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      {/* right whiskers */}
+      <line x1="82" y1="80" x2="114" y2="78" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="82" y1="85" x2="114" y2="85" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="82" y1="90" x2="114" y2="92" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   )
 }
 
 function BeanieCat() {
+  const C = '#1a34d4', W = 'white'
   return (
-    <svg width="96" height="108" viewBox="0 0 96 108" fill="none">
+    <svg width="110" height="130" viewBox="0 0 110 130" fill="none">
+      {/* cat head silhouette with pointy ears at sides of beanie */}
+      <path d="M20 48 L8 18 L38 38 Q55 32 72 38 L102 18 L90 48 Q108 60 104 84 Q96 114 55 118 Q14 114 6 84 Q2 60 20 48Z"
+        fill={W} stroke={C} strokeWidth="2.5" strokeLinejoin="round"/>
+      {/* left inner ear */}
+      <path d="M12 22 L34 40 L20 50Z" fill={C}/>
+      {/* right inner ear */}
+      <path d="M98 22 L76 40 L90 50Z" fill={C}/>
+      {/* beanie hat — sits on top, covering ears */}
+      <path d="M14 56 Q14 22 55 22 Q96 22 96 56Z" fill={C}/>
+      <rect x="8" y="52" width="94" height="14" rx="7" fill={C}/>
+      {/* brim highlight */}
+      <path d="M14 60 Q55 68 96 60" stroke={W} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.3"/>
+      {/* pompom string */}
+      <line x1="55" y1="22" x2="55" y2="11" stroke={C} strokeWidth="2"/>
       {/* pompom */}
-      <circle cx="48" cy="7" r="7" fill="#1a34d4"/>
-      {/* beanie dome */}
-      <path d="M16 34 Q16 8 48 8 Q80 8 80 34Z" fill="#1a34d4"/>
-      {/* brim */}
-      <rect x="10" y="32" width="76" height="9" rx="4.5" fill="#1a34d4"/>
-      {/* brim crease */}
-      <line x1="14" y1="37" x2="82" y2="37" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      {/* ears */}
-      <circle cx="13" cy="54" r="11" fill="#1a34d4"/>
-      <circle cx="83" cy="54" r="11" fill="#1a34d4"/>
-      {/* head */}
-      <circle cx="48" cy="70" r="30" fill="#1a34d4"/>
-      {/* left eye white */}
-      <ellipse cx="36" cy="65" rx="6" ry="7" fill="#d8f5e4"/>
-      <circle cx="37" cy="66" r="3" fill="#1a34d4"/>
-      {/* right eye white */}
-      <ellipse cx="60" cy="65" rx="6" ry="7" fill="#d8f5e4"/>
-      <circle cx="61" cy="66" r="3" fill="#1a34d4"/>
+      <circle cx="55" cy="7" r="9" fill={C}/>
+      <circle cx="55" cy="7" r="5" fill={W}/>
+      {/* eyes — almond shaped */}
+      <ellipse cx="38" cy="80" rx="9" ry="7" fill={C}/>
+      <ellipse cx="72" cy="80" rx="9" ry="7" fill={C}/>
+      <circle cx="36" cy="78" r="2.5" fill={W}/>
+      <circle cx="70" cy="78" r="2.5" fill={W}/>
       {/* nose */}
-      <circle cx="48" cy="76" r="3" fill="#d8f5e4"/>
+      <path d="M51 90 L55 87 L59 90Z" fill={C}/>
       {/* mouth */}
-      <path d="M40 82 Q48 90 56 82" stroke="#d8f5e4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-      {/* whiskers */}
-      <line x1="6" y1="74" x2="34" y2="77" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="6" y1="81" x2="34" y2="81" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="62" y1="77" x2="90" y2="74" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="62" y1="81" x2="90" y2="81" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      {/* scarf */}
-      <path d="M18 96 Q48 107 78 96 L78 106 Q48 116 18 106Z" fill="#1a34d4"/>
-      <path d="M18 96 Q48 104 78 96" stroke="#d8f5e4" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M48 95 Q55 103 62 95" stroke={C} strokeWidth="2" fill="none" strokeLinecap="round"/>
+      {/* left whiskers */}
+      <line x1="2" y1="84" x2="30" y2="86" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="91" x2="30" y2="91" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="98" x2="30" y2="96" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      {/* right whiskers */}
+      <line x1="80" y1="86" x2="108" y2="84" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="80" y1="91" x2="108" y2="91" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="80" y1="96" x2="108" y2="98" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      {/* scarf / bandana hanging below */}
+      <path d="M22 112 L55 130 L88 112 Q74 104 55 104 Q36 104 22 112Z" fill={C}/>
     </svg>
   )
 }
 
 function BowtieCat() {
+  const C = '#1a34d4', W = 'white'
   return (
-    <svg width="100" height="108" viewBox="0 0 100 108" fill="none">
-      {/* ears */}
-      <polygon points="16,40 8,12 32,26" fill="#1a34d4"/>
-      <polygon points="84,40 92,12 68,26" fill="#1a34d4"/>
-      {/* head */}
-      <ellipse cx="50" cy="58" rx="38" ry="36" fill="#1a34d4"/>
-      {/* tabby forehead stripes */}
-      <path d="M32 34 Q40 28 48 33" stroke="#d8f5e4" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
-      <path d="M52 33 Q60 28 68 34" stroke="#d8f5e4" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
-      <path d="M37 29 Q50 23 63 29" stroke="#d8f5e4" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
-      {/* happy squint eyes */}
-      <path d="M24 53 Q33 44 42 53" stroke="#d8f5e4" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
-      <path d="M58 53 Q67 44 76 53" stroke="#d8f5e4" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+    <svg width="122" height="116" viewBox="0 0 122 116" fill="none">
+      {/* full cat head silhouette with big pointed ears */}
+      <path d="M24 46 L10 10 L44 36 Q61 30 78 36 L112 10 L98 46 Q116 58 112 82 Q104 112 61 116 Q18 112 10 82 Q6 58 24 46Z"
+        fill={W} stroke={C} strokeWidth="2.5" strokeLinejoin="round"/>
+      {/* left inner ear */}
+      <path d="M14 14 L40 38 L24 48Z" fill={C}/>
+      {/* right inner ear */}
+      <path d="M108 14 L82 38 L98 48Z" fill={C}/>
+      {/* tabby forehead stripes — 3 curved lines */}
+      <path d="M38 48 Q48 40 58 46" stroke={C} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <path d="M64 46 Q74 40 84 48" stroke={C} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <path d="M44 43 Q61 36 78 43" stroke={C} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      {/* happy squinting eyes ^^ */}
+      <path d="M24 66 Q38 54 52 66" stroke={C} strokeWidth="4" fill="none" strokeLinecap="round"/>
+      <path d="M70 66 Q84 54 98 66" stroke={C} strokeWidth="4" fill="none" strokeLinecap="round"/>
       {/* nose */}
-      <circle cx="50" cy="65" r="3" fill="#d8f5e4"/>
-      {/* mouth */}
-      <path d="M42 71 Q50 80 58 71" stroke="#d8f5e4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-      {/* whiskers */}
-      <line x1="4" y1="63" x2="34" y2="66" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="4" y1="70" x2="34" y2="70" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="66" y1="66" x2="96" y2="63" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="66" y1="70" x2="96" y2="70" stroke="#d8f5e4" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M57 76 L61 73 L65 76Z" fill={C}/>
+      {/* big wide smile */}
+      <path d="M42 82 Q61 100 80 82" stroke={C} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      {/* left whiskers */}
+      <line x1="2" y1="72" x2="36" y2="74" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="79" x2="36" y2="79" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2" y1="86" x2="36" y2="84" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      {/* right whiskers */}
+      <line x1="86" y1="74" x2="120" y2="72" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="86" y1="79" x2="120" y2="79" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="86" y1="84" x2="120" y2="86" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
       {/* bow tie left wing */}
-      <path d="M14 95 L40 87 L40 103Z" fill="#1a34d4"/>
+      <path d="M20 106 L50 96 L50 116Z" fill={C}/>
       {/* bow tie right wing */}
-      <path d="M86 95 L60 87 L60 103Z" fill="#1a34d4"/>
+      <path d="M102 106 L72 96 L72 116Z" fill={C}/>
       {/* knot */}
-      <ellipse cx="50" cy="95" rx="10" ry="9" fill="#1a34d4"/>
+      <ellipse cx="61" cy="106" rx="14" ry="12" fill={C}/>
       {/* knot highlight */}
-      <ellipse cx="50" cy="95" rx="5" ry="4.5" fill="#d8f5e4"/>
+      <ellipse cx="61" cy="106" rx="6" ry="5" fill={W}/>
     </svg>
   )
 }
@@ -255,50 +273,42 @@ function BowtieCat() {
 function CatBanner() {
   return (
     <div style={{
-      background: '#d8f5e4',
-      backgroundImage: `linear-gradient(rgba(26,52,212,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(26,52,212,0.10) 1px, transparent 1px)`,
-      backgroundSize: '30px 30px',
+      background: '#c5f5da',
+      backgroundImage: `linear-gradient(rgba(50,180,130,0.28) 1px, transparent 1px), linear-gradient(90deg, rgba(50,180,130,0.28) 1px, transparent 1px)`,
+      backgroundSize: '32px 32px',
       borderRadius: 20,
       margin: '20px 0 0',
-      padding: '36px 32px',
       position: 'relative',
       overflow: 'hidden',
-      minHeight: 200,
-      border: '1.5px solid rgba(26,52,212,0.13)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      height: 270,
+      border: '1.5px solid rgba(50,180,130,0.3)',
     }}>
-      {/* Sunglasses cat — bottom left, rocks left-right */}
-      <div style={{ position: 'absolute', left: 24, bottom: 0 }}>
-        <div style={{ animation: 'cat-sway 3s ease-in-out infinite', transformOrigin: 'bottom center' }}>
+      {/* Beanie cat — left floor */}
+      <div style={{ position: 'absolute', left: 22, bottom: 0, animation: 'cat-sway 3.2s ease-in-out infinite', transformOrigin: 'bottom center' }}>
+        <BeanieCat />
+      </div>
+
+      {/* Sunglasses cat — centered, bottom lands just above "off" label */}
+      <div style={{ position: 'absolute', top: 28, left: '50%' }}>
+        <div style={{ transform: 'translateX(-50%)', animation: 'cat-sway-rev 2.8s ease-in-out infinite', transformOrigin: 'bottom center' }}>
           <SunglassesCat />
         </div>
       </div>
 
-      {/* Beanie cat — top center, fully inside banner */}
-      <div style={{ position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)' }}>
-        <div style={{ animation: 'cat-sway-rev 2.6s ease-in-out infinite', transformOrigin: 'bottom center' }}>
-          <BeanieCat />
-        </div>
+      {/* Bow tie cat — right floor */}
+      <div style={{ position: 'absolute', right: 18, bottom: 0, animation: 'cat-sway-slow 3.8s ease-in-out infinite', transformOrigin: 'bottom center' }}>
+        <BowtieCat />
       </div>
 
-      {/* Bow tie cat — bottom right, slower sway */}
-      <div style={{ position: 'absolute', right: 18, bottom: 0 }}>
-        <div style={{ animation: 'cat-sway-slow 3.8s ease-in-out infinite', transformOrigin: 'bottom center' }}>
-          <BowtieCat />
-        </div>
-      </div>
-
-      {/* Centre text — sits in lower half so beanie cat doesn't overlap */}
-      <div style={{ textAlign: 'center', zIndex: 2, padding: '60px 180px 0', alignSelf: 'flex-end', paddingBottom: 24 }}>
-        <div style={{ fontSize: 11, fontWeight: 800, color: '#1a34d4', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 8, opacity: 0.55 }}>
+      {/* Text — absolutely pinned to bottom, never touched by cats */}
+      <div style={{ position: 'absolute', bottom: 26, left: 0, right: 0, textAlign: 'center', zIndex: 2 }}>
+        <div style={{ fontSize: 11, fontWeight: 800, color: '#1a34d4', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 8, opacity: 0.5 }}>
           fresh off product hunt
         </div>
         <h1 style={{ fontSize: 38, fontWeight: 900, color: '#1a34d4', letterSpacing: '-1.5px', lineHeight: 1.1, margin: 0 }}>
           The Rollout Report
         </h1>
-        <p style={{ fontSize: 14, color: '#1a34d4', opacity: 0.55, marginTop: 8, fontWeight: 500 }}>
+        <p style={{ fontSize: 14, color: '#1a34d4', opacity: 0.5, marginTop: 8, fontWeight: 500 }}>
           A PM's unfiltered take on what just shipped 🚀
         </p>
       </div>

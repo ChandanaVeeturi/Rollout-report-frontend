@@ -41,7 +41,7 @@ function HeroCard({ review }) {
         color: 'var(--accent)', background: 'var(--accent-soft)', border: '1px solid var(--accent-border)',
         borderRadius: 5, padding: '3px 8px',
       }}>
-        ⚡ Review of the Day
+        ⚡ PM Pick of the Day
       </div>
 
       <div style={{
@@ -306,9 +306,9 @@ export default function HomePage() {
           <SidebarCard title="Verdict Guide">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               {[
-                { v: 'recommended',    desc: 'Use it now. Worth the switch.' },
-                { v: 'worth_watching', desc: 'Promising, not daily-driver ready.' },
-                { v: 'skip_it',        desc: 'Wait for the next version.' },
+                { v: 'recommended',    desc: 'Solid UX, clear value prop. Use it now.' },
+                { v: 'worth_watching', desc: 'Good idea, rough edges. Watch the roadmap.' },
+                { v: 'skip_it',        desc: 'Needs a rethink. Wait for v2.' },
               ].map(({ v, desc }) => (
                 <div key={v} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                   <VerdictBadge verdict={v} />
@@ -351,7 +351,7 @@ function EmptyFeed({ hasFilters, onClear }) {
         <>
           <p style={{ color: 'var(--text2)', fontSize: 16, fontWeight: 600, marginBottom: 8 }}>Nothing here yet</p>
           <p style={{ color: 'var(--muted)', fontSize: 14 }}>
-            The editor is probably arguing with a changelog right now. Check back soon.
+            I'm probably stress-testing the onboarding flow of something new. Check back soon.
           </p>
         </>
       )}
@@ -367,14 +367,14 @@ function Footer() {
       </span>
 
       <span style={{ fontSize: 13, color: 'var(--muted)' }}>
-        Made with ❤️ by{' '}
-        <a href="https://www.chandanaveeturi.com/" target="_blank" rel="noopener noreferrer"
+        A PM's take on what just shipped · by{' '}
+        <a href="https://www.linkedin.com/in/chandana-v-04b1b124a/" target="_blank" rel="noopener noreferrer"
           style={{ color: 'var(--accent)', transition: 'opacity .15s' }}
           onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
           onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
           Chandana Veeturi
         </a>
-        {' '}from India 🇮🇳
+        {' '}🇮🇳
       </span>
 
       <div style={{ display: 'flex', gap: 20 }}>

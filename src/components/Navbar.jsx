@@ -78,7 +78,7 @@ export default function Navbar() {
             onChange={e => setQ(e.target.value)}
             onFocus={() => setSearchFocus(true)}
             onBlur={() => setSearchFocus(false)}
-            placeholder="Search reviews…"
+            placeholder="Search what just shipped…"
             style={{ background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: 14, width: '100%', fontFamily: 'var(--font)' }}
           />
           {q && (

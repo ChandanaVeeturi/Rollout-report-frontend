@@ -1,7 +1,7 @@
 const MAP = {
-  recommended:    { label: '🚀 Ship It',       bg: 'var(--green-bg)',  color: 'var(--green)', border: 'var(--green-border)', cls: 'badge-recommended' },
-  worth_watching: { label: '👀 Keep Watching', bg: 'var(--amber-bg)',  color: 'var(--amber)', border: 'var(--amber-border)', cls: 'badge-worth_watching' },
-  skip_it:        { label: '☠ Hard Pass',      bg: 'var(--red-bg)',    color: 'var(--red)',   border: 'var(--red-border)',   cls: 'badge-skip_it' },
+  recommended:    { label: '✅ Ship It',              bg: 'var(--green-bg)',  color: 'var(--green)', border: 'var(--green-border)', cls: 'badge-recommended' },
+  worth_watching: { label: '🔁 Needs Iteration',      bg: 'var(--amber-bg)',  color: 'var(--amber)', border: 'var(--amber-border)', cls: 'badge-worth_watching' },
+  skip_it:        { label: '🗑 Back to Drawing Board', bg: 'var(--red-bg)',    color: 'var(--red)',   border: 'var(--red-border)',   cls: 'badge-skip_it' },
 }
 
 export default function VerdictBadge({ verdict, large, onClick }) {

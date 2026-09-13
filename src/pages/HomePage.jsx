@@ -147,6 +147,112 @@ function CatItem({ label, active, onClick }) {
   )
 }
 
+function SunglassesCat() {
+  return (
+    <svg width="92" height="104" viewBox="0 0 92 104" fill="none">
+      <path d="M18 42 L10 14 L35 28Z" fill="#1a34d4"/>
+      <path d="M74 42 L82 14 L57 28Z" fill="#1a34d4"/>
+      <ellipse cx="46" cy="62" rx="35" ry="33" fill="#1a34d4"/>
+      <circle cx="32" cy="57" r="12" fill="#d8f5e4"/>
+      <circle cx="60" cy="57" r="12" fill="#d8f5e4"/>
+      <rect x="44" y="55" width="4" height="2.5" rx="1" fill="#1a34d4"/>
+      <line x1="20" y1="54" x2="10" y2="51" stroke="#d8f5e4" strokeWidth="2" strokeLinecap="round"/>
+      <line x1="72" y1="54" x2="82" y2="51" stroke="#d8f5e4" strokeWidth="2" strokeLinecap="round"/>
+      <ellipse cx="46" cy="71" rx="3" ry="2" fill="#d8f5e4"/>
+      <path d="M40 76 Q46 83 52 76" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <line x1="8" y1="69" x2="35" y2="72" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="8" y1="75" x2="35" y2="75" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="57" y1="72" x2="84" y2="69" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="57" y1="75" x2="84" y2="75" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function BeanieCat() {
+  return (
+    <svg width="96" height="138" viewBox="0 0 96 138" fill="none">
+      <circle cx="48" cy="9" r="9" fill="#1a34d4"/>
+      <ellipse cx="48" cy="26" rx="27" ry="19" fill="#1a34d4"/>
+      <path d="M21 33 Q48 42 75 33" stroke="#d8f5e4" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+      <ellipse cx="16" cy="57" rx="12" ry="13" fill="#1a34d4"/>
+      <ellipse cx="80" cy="57" rx="12" ry="13" fill="#1a34d4"/>
+      <ellipse cx="48" cy="76" rx="34" ry="32" fill="#1a34d4"/>
+      <ellipse cx="35" cy="70" rx="5.5" ry="6.5" fill="#d8f5e4"/>
+      <ellipse cx="61" cy="70" rx="5.5" ry="6.5" fill="#d8f5e4"/>
+      <circle cx="36" cy="71" r="2.5" fill="#1a34d4"/>
+      <circle cx="62" cy="71" r="2.5" fill="#1a34d4"/>
+      <ellipse cx="48" cy="81" rx="3" ry="2" fill="#d8f5e4"/>
+      <path d="M42 86 Q48 93 54 86" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <line x1="10" y1="79" x2="38" y2="82" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="10" y1="85" x2="38" y2="85" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="58" y1="82" x2="86" y2="79" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="58" y1="85" x2="86" y2="85" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M14 103 Q48 116 82 103 L82 113 Q48 125 14 113Z" fill="#1a34d4"/>
+      <path d="M14 103 Q48 111 82 103" stroke="#d8f5e4" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function BowtieCat() {
+  return (
+    <svg width="96" height="112" viewBox="0 0 96 112" fill="none">
+      <path d="M18 40 L10 14 L34 27Z" fill="#1a34d4"/>
+      <path d="M78 40 L86 14 L62 27Z" fill="#1a34d4"/>
+      <ellipse cx="48" cy="60" rx="36" ry="34" fill="#1a34d4"/>
+      <path d="M33 36 Q40 31 46 35" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M50 35 Q56 31 63 36" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M38 31 Q48 26 58 31" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M28 55 Q35 48 42 55" stroke="#d8f5e4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <path d="M54 55 Q61 48 68 55" stroke="#d8f5e4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <ellipse cx="48" cy="67" rx="3" ry="2" fill="#d8f5e4"/>
+      <path d="M42 72 Q48 79 54 72" stroke="#d8f5e4" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <line x1="8" y1="65" x2="36" y2="68" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="8" y1="71" x2="36" y2="71" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="60" y1="68" x2="88" y2="65" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="60" y1="71" x2="88" y2="71" stroke="#d8f5e4" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M22 97 L44 90 L44 104Z" fill="#1a34d4"/>
+      <path d="M74 97 L52 90 L52 104Z" fill="#1a34d4"/>
+      <ellipse cx="48" cy="97" rx="6" ry="7" fill="#1a34d4"/>
+      <ellipse cx="48" cy="97" rx="3" ry="3.5" fill="#d8f5e4"/>
+    </svg>
+  )
+}
+
+function CatBanner() {
+  return (
+    <div style={{
+      background: '#d8f5e4',
+      backgroundImage: `linear-gradient(rgba(26,52,212,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(26,52,212,0.10) 1px, transparent 1px)`,
+      backgroundSize: '30px 30px',
+      borderRadius: 20,
+      margin: '20px 0 0',
+      padding: '28px 32px',
+      position: 'relative',
+      overflow: 'hidden',
+      minHeight: 210,
+      border: '1.5px solid rgba(26,52,212,0.13)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <div style={{ position: 'absolute', left: 32, bottom: 6, opacity: 0.95 }}><SunglassesCat /></div>
+      <div style={{ position: 'absolute', left: '50%', top: 4, transform: 'translateX(-50%)', opacity: 0.95 }}><BeanieCat /></div>
+      <div style={{ position: 'absolute', right: 28, bottom: 4, opacity: 0.95 }}><BowtieCat /></div>
+      <div style={{ textAlign: 'center', zIndex: 2, padding: '0 160px' }}>
+        <div style={{ fontSize: 11, fontWeight: 800, color: '#1a34d4', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 10, opacity: 0.6 }}>
+          fresh off product hunt
+        </div>
+        <h1 style={{ fontSize: 40, fontWeight: 900, color: '#1a34d4', letterSpacing: '-1.5px', lineHeight: 1.1, margin: 0 }}>
+          The Rollout Report
+        </h1>
+        <p style={{ fontSize: 15, color: '#1a34d4', opacity: 0.6, marginTop: 10, fontWeight: 500, margin: '10px 0 0' }}>
+          A PM's unfiltered take on what just shipped 🚀
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const sort     = searchParams.get('sort') || 'recent'
@@ -189,6 +295,7 @@ export default function HomePage() {
 
   return (
     <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 24px' }}>
+      <CatBanner />
       {showHero && <HeroCard review={pinned} />}
 
       {/* Active filters banner */}

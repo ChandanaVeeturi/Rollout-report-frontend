@@ -111,6 +111,20 @@ button { font-family: var(--font); }
   border-radius: 6px;
 }
 
+/* ── Cat sway animations ── */
+@keyframes cat-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50%       { transform: rotate(8deg); }
+}
+@keyframes cat-sway-rev {
+  0%, 100% { transform: rotate(6deg); }
+  50%       { transform: rotate(-6deg); }
+}
+@keyframes cat-sway-slow {
+  0%, 100% { transform: rotate(-5deg); }
+  50%       { transform: rotate(10deg); }
+}
+
 /* ── Upvote pop animation ── */
 @keyframes upvote-pop {
   0%   { transform: scale(1); }

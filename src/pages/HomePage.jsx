@@ -530,28 +530,57 @@ function EmptyFeed({ hasFilters, onClear }) {
 }
 
 function Footer() {
+  function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const C = '#1a34d4'
+
   return (
-    <footer style={{ borderTop: '1.5px solid var(--border)', marginTop: 48, padding: '24px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-      <span style={{ fontSize: 15, fontWeight: 800, color: 'var(--text2)' }}>
-        <span style={{ color: 'var(--accent)' }}>Rollout</span> Report
-      </span>
+    <div style={{ marginTop: 56 }}>
+      {/* Wavy scalloped top edge */}
+      <svg viewBox="0 0 1200 52" preserveAspectRatio="none" style={{ width: '100%', display: 'block', marginBottom: -1 }}>
+        <path d="M0,36 C50,10 100,10 150,36 C200,62 250,62 300,36 C350,10 400,10 450,36 C500,62 550,62 600,36 C650,10 700,10 750,36 C800,62 850,62 900,36 C950,10 1000,10 1050,36 C1100,62 1150,62 1200,36 L1200,52 L0,52 Z"
+          fill="#eaedff"/>
+      </svg>
 
-      <span style={{ fontSize: 13, color: 'var(--muted)' }}>
-        A PM's take on what just shipped · by{' '}
-        <a href="https://www.linkedin.com/in/chandana-v-04b1b124a/" target="_blank" rel="noopener noreferrer"
-          style={{ color: 'var(--accent)', transition: 'opacity .15s' }}
-          onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
-          onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-          Chandana Veeturi
-        </a>
-        {' '}🇮🇳
-      </span>
+      <footer style={{ background: '#eaedff', padding: '28px 4px 28px' }}>
+        {/* Top row: logo+name left, social links right */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+          {/* Left: initial square + name + email */}
+          <div>
+            <div style={{ width: 48, height: 48, background: C, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+              <span style={{ color: 'white', fontSize: 24, fontWeight: 900, letterSpacing: '-1px' }}>C</span>
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 900, color: C, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Chandana Veeturi</div>
+            <div style={{ fontSize: 13, color: C, opacity: 0.55, marginTop: 3 }}>chandanainfoinfo@gmail.com</div>
+          </div>
 
-      <div style={{ display: 'flex', gap: 20 }}>
-        {['About', 'Archive'].map(l => (
-          <span key={l} style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 500 }}>{l}</span>
-        ))}
-      </div>
-    </footer>
+          {/* Right: pills + up arrow */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 4 }}>
+            <a href="https://www.linkedin.com/in/chandana-v-04b1b124a/" target="_blank" rel="noopener noreferrer"
+              style={{ padding: '9px 22px', border: `2px solid ${C}`, borderRadius: 999, fontSize: 13, fontWeight: 800, color: C, letterSpacing: '1px', textTransform: 'uppercase', background: 'white', transition: 'background .15s, color .15s', display: 'inline-block' }}
+              onMouseEnter={e => { e.currentTarget.style.background = C; e.currentTarget.style.color = 'white' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = C }}>
+              LinkedIn
+            </a>
+            <a href="https://therolloutreport.com/" target="_blank" rel="noopener noreferrer"
+              style={{ padding: '9px 22px', border: `2px solid ${C}`, borderRadius: 999, fontSize: 13, fontWeight: 800, color: C, letterSpacing: '1px', textTransform: 'uppercase', background: 'white', transition: 'background .15s, color .15s', display: 'inline-block' }}
+              onMouseEnter={e => { e.currentTarget.style.background = C; e.currentTarget.style.color = 'white' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = C }}>
+              Site
+            </a>
+            <button onClick={scrollToTop}
+              style={{ width: 42, height: 42, borderRadius: '50%', border: `2px solid ${C}`, background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: C, transition: 'background .15s, color .15s' }}
+              onMouseEnter={e => { e.currentTarget.style.background = C; e.currentTarget.style.color = 'white' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = C }}>
+              ↑
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom row: year right */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <span style={{ fontSize: 12, color: C, opacity: 0.45, fontWeight: 600, letterSpacing: '0.5px' }}>Rollout Report 2026</span>
+        </div>
+      </footer>
+    </div>
   )
 }

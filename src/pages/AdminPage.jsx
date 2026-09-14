@@ -109,6 +109,7 @@ export default function AdminPage() {
   const navigate = useNavigate()
   const qc = useQueryClient()
   const [editing, setEditing] = useState(null)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     if (!loading && !user?.is_admin) navigate('/')
@@ -120,6 +121,10 @@ export default function AdminPage() {
     enabled: !!user?.is_admin,
   })
   const reviews = reviewsData?.items ?? []
+  const q = search.trim().toLowerCase()
+  const filteredReviews = q
+    ? reviews.filter(r => r.title.toLowerCase().includes(q) || r.tagline?.toLowerCase().includes(q))
+    : reviews
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
@@ -158,15 +163,35 @@ export default function AdminPage() {
         />
       )}
 
+      <div style={{ position: 'relative', marginBottom: 16 }}>
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search reviews to edit…"
+          style={{
+            width: '100%', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 8,
+            padding: '9px 12px', fontSize: 14, color: 'var(--text)', outline: 'none', fontFamily: 'inherit',
+          }}
+        />
+        {search && (
+          <button onClick={() => setSearch('')} style={{
+            position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
+            background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 16, lineHeight: 1, padding: 0,
+          }}>×</button>
+        )}
+      </div>
+
       {isLoading ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {[...Array(4)].map((_, i) => <div key={i} style={{ height: 72, borderRadius: 12, background: 'var(--surface)' }} />)}
         </div>
       ) : reviews.length === 0 ? (
         <p style={{ textAlign: 'center', color: 'var(--muted)', padding: '60px 0', fontSize: 14 }}>No reviews yet. Create one above.</p>
+      ) : filteredReviews.length === 0 ? (
+        <p style={{ textAlign: 'center', color: 'var(--muted)', padding: '60px 0', fontSize: 14 }}>No reviews match "{search}".</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {reviews.map(r => (
+          {filteredReviews.map(r => (
             <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 14, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '14px 18px' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 5 }}>{r.title}</div>

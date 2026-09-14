@@ -122,7 +122,7 @@ export async function getCategories() {
 }
 
 // Admin — no mock fallback (admin panel requires real backend)
-export const adminGetReviews   = (page = 1) => api.get('/admin/reviews', { params: { page, per_page: 50 } }).then(r => r.data)
+export const adminGetReviews   = (page = 1) => api.get('/admin/reviews', { params: { page, per_page: 100 } }).then(r => r.data)
 export const adminCreateReview = (data) => api.post('/admin/reviews', data).then(r => r.data)
 export const adminUpdateReview = (slug, data) => api.patch(`/admin/reviews/${slug}`, data).then(r => r.data)
 export const adminDeleteReview = (slug) => api.delete(`/admin/reviews/${slug}`)

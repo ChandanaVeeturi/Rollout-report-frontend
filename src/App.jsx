@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import AdminPage from './pages/AdminPage'
 import BookmarksPage from './pages/BookmarksPage'
+import BlogPage from './pages/BlogPage'
 
 const qc = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1 } } })
 
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/blog" element={<BlogPage />} />
             <Route path="/bookmarks" element={<BookmarksPage />} />
           </Routes>
           <KonamiEgg />

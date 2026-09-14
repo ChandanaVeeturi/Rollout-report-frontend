@@ -92,6 +92,7 @@ export default function Navbar() {
 
       <div style={{ display: 'flex', gap: 2, marginLeft: 12, alignItems: 'center' }}>
         <NavLink to="/" className="nav-browse">Launches</NavLink>
+        {user?.is_admin && <NavLink to="/blog">Blog</NavLink>}
         {user?.is_admin && <NavLink to="/admin">Admin</NavLink>}
       </div>
 

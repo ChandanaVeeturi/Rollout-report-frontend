@@ -306,7 +306,6 @@ export default function ReviewDetailPage() {
       {/* Verdict + meta pills — this row is watched for sticky */}
       <div ref={verdictRef} style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
         <VerdictBadge verdict={review.verdict} large />
-        {review.platforms && <CatPill>{review.platforms}</CatPill>}
         {review.release_date && <CatPill>Released {new Date(review.release_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</CatPill>}
         {review.external_url && (
           <a href={review.external_url} target="_blank" rel="noopener noreferrer" style={{

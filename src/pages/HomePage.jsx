@@ -11,8 +11,6 @@ const SORTS = [
   { key: 'trending', label: 'Trending' },
 ]
 
-const PLATFORMS = ['macOS', 'Windows', 'Linux', 'Web', 'iOS', 'Android']
-
 function HeroCard({ review }) {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -75,7 +73,6 @@ function HeroCard({ review }) {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
           <VerdictBadge verdict={review.verdict} large />
-          {review.platforms && <CatPill>{review.platforms}</CatPill>}
           {review.release_date && <CatPill>Released {new Date(review.release_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</CatPill>}
         </div>
 
@@ -320,18 +317,16 @@ export default function HomePage() {
   const sort     = searchParams.get('sort') || 'recent'
   const category = searchParams.get('category') || ''
   const verdict  = searchParams.get('verdict') || ''
-  const platform = searchParams.get('platform') || ''
   const tag      = searchParams.get('tag') || ''
   const q        = searchParams.get('q') || ''
   const page     = parseInt(searchParams.get('page') || '1')
 
   const { data, isLoading } = useQuery({
-    queryKey: ['reviews', { sort, category, verdict, platform, tag, q, page }],
+    queryKey: ['reviews', { sort, category, verdict, tag, q, page }],
     queryFn: () => getReviews({
       sort,
       category: category || undefined,
       verdict:  verdict  || undefined,
-      platform: platform || undefined,
       tag:      tag      || undefined,
       q:        q        || undefined,
       page,
@@ -351,7 +346,7 @@ export default function HomePage() {
     setSearchParams({})
   }
 
-  const hasFilters = verdict || category || platform || tag || q
+  const hasFilters = verdict || category || tag || q
   const pinned   = data?.items?.find(r => r.is_pinned) || data?.items?.[0]
   const showHero = !q && !tag && sort === 'recent' && page === 1 && pinned
 
@@ -439,22 +434,6 @@ export default function HomePage() {
               <CatItem label="All Topics" active={!category} onClick={() => setParam('category', '')} />
               {categories.map(c => (
                 <CatItem key={c.id} label={`${c.icon} ${c.name}`} active={category === c.slug} onClick={() => setParam('category', category === c.slug ? '' : c.slug)} />
-              ))}
-            </div>
-          </SidebarCard>
-
-          <SidebarCard title="Platform">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {PLATFORMS.map(p => (
-                <button key={p} onClick={() => setParam('platform', platform === p ? '' : p)} style={{
-                  fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 6, cursor: 'pointer', border: '1.5px solid',
-                  borderColor: platform === p ? 'var(--accent)' : 'var(--border)',
-                  background: platform === p ? 'var(--accent-soft)' : 'var(--bg)',
-                  color: platform === p ? 'var(--accent)' : 'var(--text2)',
-                  transition: 'all .12s',
-                }}>
-                  {p}
-                </button>
               ))}
             </div>
           </SidebarCard>

@@ -80,11 +80,6 @@ export default function ReviewCard({ review, rank }) {
               {review.category.name}
             </span>
           )}
-          {review.platforms && (
-            <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 5, background: 'var(--bg)', border: '1.5px solid var(--border)', color: 'var(--muted)' }}>
-              {review.platforms}
-            </span>
-          )}
           {review.release_date && (
             <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 5, background: 'var(--bg)', border: '1.5px solid var(--border)', color: 'var(--muted)' }}>
               {new Date(review.release_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}

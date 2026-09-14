@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import VerdictBadge from '../components/VerdictBadge'
 
-const EMPTY = { title: '', product_slug: '', tagline: '', body: '', verdict: 'recommended', category_id: '', platforms: '', external_url: '', release_date: '', status: 'draft', tags: [], hero_image_url: '' }
+const EMPTY = { title: '', product_slug: '', tagline: '', body: '', verdict: 'recommended', category_id: '', external_url: '', release_date: '', status: 'draft', tags: [], hero_image_url: '' }
 
 function inputStyle(focused) {
   return { width: '100%', background: 'var(--surface2)', border: `1px solid ${focused ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 8, padding: '9px 12px', fontSize: 13, color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color .15s' }
@@ -61,7 +61,7 @@ function ReviewForm({ initial, onSave, onCancel, categories, loading }) {
             <option value="skip_it">✗ Skip It</option>
           </select>
         </div>
-        {[['Platforms', 'platforms', 'e.g. macOS, Windows, Web'], ['Release Date', 'release_date', '', 'date'], ['External URL', 'external_url', 'https://'], ['Hero Image URL', 'hero_image_url', 'https://']].map(([lbl, key, ph, type]) => (
+        {[['Release Date', 'release_date', '', 'date'], ['External URL', 'external_url', 'https://'], ['Hero Image URL', 'hero_image_url', 'https://']].map(([lbl, key, ph, type]) => (
           <div key={key}>
             <Label>{lbl}</Label>
             <input type={type || 'text'} value={form[key]} onChange={e => set(key, e.target.value)} placeholder={ph} style={inputStyle(focused[key])} {...fo(key)} />

@@ -8,7 +8,6 @@ import { useAuth } from '../context/AuthContext'
 
 const SORTS = [
   { key: 'recent',   label: 'Most Recent' },
-  { key: 'popular',  label: 'Top Voted' },
   { key: 'trending', label: 'Trending' },
 ]
 

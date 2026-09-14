@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { adminGetReviews, adminCreateReview, adminUpdateReview, adminDeleteReview, adminPinReview, getCategories } from '../api/reviews'
+import { adminGetReviews, adminCreateReview, adminUpdateReview, adminDeleteReview, adminPinReview, getCategories, getReview } from '../api/reviews'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import VerdictBadge from '../components/VerdictBadge'
@@ -16,10 +16,24 @@ function Label({ children }) {
 }
 
 function ReviewForm({ initial, onSave, onCancel, categories, loading }) {
-  const [form, setForm] = useState(initial || EMPTY)
+  const [form, setForm] = useState(() => {
+    if (!initial) return EMPTY
+    const noNulls = Object.fromEntries(Object.entries(initial).map(([k, v]) => [k, v === null ? '' : v]))
+    return {
+      ...EMPTY,
+      ...noNulls,
+      category_id: initial.category?.id || '',
+      tags: (initial.tags || []).map(t => (typeof t === 'string' ? t : t.slug)),
+    }
+  })
   const [tagInput, setTagInput] = useState('')
   const [focused, setFocused] = useState({})
+  const rootRef = useRef(null)
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  useEffect(() => {
+    rootRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
   const fo = (k) => ({ onFocus: () => setFocused(f => ({ ...f, [k]: true })), onBlur: () => setFocused(f => ({ ...f, [k]: false })) })
 
   function addTag(e) {
@@ -32,7 +46,7 @@ function ReviewForm({ initial, onSave, onCancel, categories, loading }) {
   }
 
   return (
-    <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, padding: 28, marginBottom: 24 }}>
+    <div ref={rootRef} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, padding: 28, marginBottom: 24 }}>
       <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 24 }}>{initial ? 'Edit Review' : 'New Review'}</h2>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
@@ -110,6 +124,7 @@ export default function AdminPage() {
   const qc = useQueryClient()
   const [editing, setEditing] = useState(null)
   const [search, setSearch] = useState('')
+  const [loadingEdit, setLoadingEdit] = useState(null)
 
   useEffect(() => {
     if (!loading && !user?.is_admin) navigate('/')
@@ -138,6 +153,16 @@ export default function AdminPage() {
 
   if (loading || !user?.is_admin) return null
 
+  async function openEdit(r) {
+    setLoadingEdit(r.id)
+    try {
+      const full = await getReview(r.slug)
+      setEditing(full)
+    } finally {
+      setLoadingEdit(null)
+    }
+  }
+
   function handleSave(form) {
     if (editing === 'new') createMut.mutate(form)
     else updateMut.mutate({ slug: editing.slug, data: form })
@@ -155,6 +180,7 @@ export default function AdminPage() {
 
       {editing && (
         <ReviewForm
+          key={editing === 'new' ? 'new' : editing.id}
           initial={editing === 'new' ? null : editing}
           categories={categories}
           loading={createMut.isPending || updateMut.isPending}
@@ -205,7 +231,7 @@ export default function AdminPage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
                 <IconBtn title="Pin as Review of the Day" onClick={() => pinMut.mutate(r.slug)} active={r.is_pinned}>📌</IconBtn>
-                <IconBtn title="Edit" onClick={() => setEditing(r)}>✏️</IconBtn>
+                <IconBtn title="Edit" onClick={() => openEdit(r)}>{loadingEdit === r.id ? '…' : '✏️'}</IconBtn>
                 <IconBtn title="Delete" onClick={() => { if (window.confirm(`Delete "${r.title}"?`)) deleteMut.mutate(r.slug) }} danger>🗑</IconBtn>
               </div>
             </div>

@@ -1,8 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../context/AuthContext'
 import { getBlogQA, createBlogQA, updateBlogQA, deleteBlogQA } from '../api/blog'
+
+// Answers store highlights inline as ==marked text== (plain-text friendly, no schema change)
+function renderHighlighted(text) {
+  const parts = text.split(/(==.+?==)/g)
+  return parts.map((part, i) => {
+    const m = part.match(/^==(.+)==$/)
+    if (!m) return part
+    return <mark key={i} style={{ background: 'rgba(255, 209, 0, 0.45)', color: 'inherit', borderRadius: 2, padding: '0 1px' }}>{m[1]}</mark>
+  })
+}
 
 function Tile({ entry, onOpen }) {
   return (
@@ -28,6 +38,7 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
   const [editing, setEditing] = useState(false)
   const [question, setQuestion] = useState(entry.question)
   const [answer, setAnswer] = useState(entry.answer)
+  const textareaRef = useRef(null)
 
   function startEdit() {
     setQuestion(entry.question)
@@ -37,6 +48,29 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
 
   function save() {
     onSave(entry.id, { question, answer }, () => setEditing(false))
+  }
+
+  function toggleHighlight() {
+    const el = textareaRef.current
+    if (!el) return
+    const { selectionStart: start, selectionEnd: end } = el
+    if (start === end) return
+
+    const before = answer.slice(0, start)
+    const selected = answer.slice(start, end)
+    const after = answer.slice(end)
+    const alreadyMarked = /^==.+==$/.test(selected)
+
+    const next = alreadyMarked
+      ? before + selected.slice(2, -2) + after
+      : before + `==${selected}==` + after
+    setAnswer(next)
+
+    const delta = alreadyMarked ? -4 : 4
+    requestAnimationFrame(() => {
+      el.focus()
+      el.setSelectionRange(start, end + delta)
+    })
   }
 
   return (
@@ -68,8 +102,17 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
               }} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: 'var(--muted)', marginBottom: 5 }}>Answer</label>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: 'var(--muted)' }}>Answer</label>
+                <button type="button" onClick={toggleHighlight} title="Select text, then click to highlight it" style={{
+                  fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 6, cursor: 'pointer',
+                  color: 'var(--text2)', background: 'var(--bg)', border: '1.5px solid var(--border)',
+                }}>
+                  🖍 Highlight
+                </button>
+              </div>
               <textarea
+                ref={textareaRef}
                 value={answer}
                 onChange={e => setAnswer(e.target.value)}
                 rows={10}
@@ -81,6 +124,7 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
                   resize: 'vertical', lineHeight: 1.6,
                 }}
               />
+              <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 5 }}>Select a sentence, then click Highlight to mark it — click again to remove.</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
               <button onClick={() => setEditing(false)} style={{
@@ -101,7 +145,7 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
           <>
             <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', lineHeight: 1.4 }}>{entry.question}</h2>
             {entry.answer ? (
-              <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{entry.answer}</p>
+              <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{renderHighlighted(entry.answer)}</p>
             ) : (
               <p style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>No answer yet — click Edit to write one.</p>
             )}

@@ -98,6 +98,7 @@ button { font-family: var(--font); }
 
 /* ── Layout helpers ── */
 .home-grid { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
 /* ── Skeleton shimmer ── */
 @keyframes shimmer {
@@ -175,6 +176,10 @@ button { font-family: var(--font); }
 }
 .copy-tooltip { animation: tooltip-fade 1.8s ease forwards; }
 
+@media (max-width: 900px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
   .nav-root    { padding: 8px 16px !important; flex-wrap: wrap; height: auto !important; min-height: 52px; row-gap: 6px; }
@@ -187,6 +192,7 @@ button { font-family: var(--font); }
 
   .home-grid   { grid-template-columns: 1fr; }
   .home-sidebar{ display: none !important; }
+  .blog-grid   { grid-template-columns: 1fr; }
 
   .rcard       { padding: 12px 14px !important; gap: 10px !important; }
   .rcard-rank  { display: none !important; }

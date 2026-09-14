@@ -86,8 +86,8 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
         <button onClick={onClose} style={{
           position: 'absolute', top: 14, right: 16, zIndex: 1,
           width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '50%',
-          cursor: 'pointer', color: 'var(--muted)', fontSize: 18, lineHeight: 1, padding: 0,
+          background: 'var(--red-bg)', border: '1px solid var(--red-border)', borderRadius: '50%',
+          cursor: 'pointer', color: 'var(--red)', fontSize: 18, lineHeight: 1, padding: 0,
         }}>×</button>
 
         <div style={{ overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>

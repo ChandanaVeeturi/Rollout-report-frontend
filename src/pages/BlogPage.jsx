@@ -10,7 +10,7 @@ function renderHighlighted(text) {
   return parts.map((part, i) => {
     const m = part.match(/^==(.+)==$/)
     if (!m) return part
-    return <mark key={i} style={{ background: 'rgba(255, 209, 0, 0.45)', color: 'inherit', borderRadius: 2, padding: '0 1px' }}>{m[1]}</mark>
+    return <mark key={i} style={{ background: '#ffe600', color: '#1a1a1a', borderRadius: 2, padding: '0 2px' }}>{m[1]}</mark>
   })
 }
 
@@ -126,7 +126,25 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
               />
               <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 5 }}>Select a sentence, then click Highlight to mark it — click again to remove.</p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+          </>
+        ) : (
+          <>
+            <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', lineHeight: 1.4 }}>{entry.question}</h2>
+            {entry.answer ? (
+              <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{renderHighlighted(entry.answer)}</p>
+            ) : (
+              <p style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>No answer yet — click Edit to write one.</p>
+            )}
+          </>
+        )}
+        </div>
+
+        <div style={{
+          display: 'flex', justifyContent: 'flex-end', gap: 8,
+          padding: '14px 24px', borderTop: '1px solid var(--border)', flexShrink: 0,
+        }}>
+          {editing ? (
+            <>
               <button onClick={() => setEditing(false)} style={{
                 fontSize: 13, fontWeight: 600, padding: '7px 16px', borderRadius: 7, cursor: 'pointer',
                 color: 'var(--muted)', background: 'var(--surface2)', border: '1px solid var(--border)',
@@ -139,17 +157,9 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
               }}>
                 {saving ? 'Saving…' : 'Save'}
               </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', lineHeight: 1.4 }}>{entry.question}</h2>
-            {entry.answer ? (
-              <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{renderHighlighted(entry.answer)}</p>
-            ) : (
-              <p style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>No answer yet — click Edit to write one.</p>
-            )}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+            </>
+          ) : (
+            <>
               <button onClick={() => { if (confirm('Delete this question?')) onDelete(entry.id) }} style={{
                 fontSize: 13, fontWeight: 600, padding: '7px 16px', borderRadius: 7, cursor: 'pointer',
                 color: 'var(--muted)', background: 'var(--bg)', border: '1.5px solid var(--border)',
@@ -162,9 +172,8 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
               }}>
                 Edit
               </button>
-            </div>
-          </>
-        )}
+            </>
+          )}
         </div>
       </div>
     </div>

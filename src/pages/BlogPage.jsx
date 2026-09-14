@@ -9,7 +9,7 @@ function Tile({ entry, onOpen }) {
     <button onClick={() => onOpen(entry)} style={{
       textAlign: 'left', cursor: 'pointer', background: 'var(--surface)', border: '1.5px solid var(--border)',
       borderRadius: 12, padding: '18px 16px', boxShadow: 'var(--shadow-sm)', minHeight: 96,
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10,
+      display: 'flex', alignItems: 'center',
       transition: 'border-color .15s, transform .1s',
     }}
       onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent-border)'}
@@ -20,9 +20,6 @@ function Tile({ entry, onOpen }) {
       }}>
         {entry.question}
       </p>
-      <span style={{ fontSize: 11, fontWeight: 600, color: entry.answer ? 'var(--accent)' : 'var(--muted)' }}>
-        {entry.answer ? '● answered' : '○ no answer yet'}
-      </span>
     </button>
   )
 }
@@ -48,15 +45,18 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 14,
-        padding: 24, width: '100%', maxWidth: 560, maxHeight: '85vh', overflowY: 'auto',
-        boxShadow: 'var(--shadow-lg, 0 12px 40px rgba(0,0,0,0.25))', display: 'flex', flexDirection: 'column', gap: 16,
+        position: 'relative', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 14,
+        width: '100%', maxWidth: 560, maxHeight: '85vh',
+        boxShadow: 'var(--shadow-lg, 0 12px 40px rgba(0,0,0,0.25))', display: 'flex', flexDirection: 'column',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={onClose} style={{
-            background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 20, lineHeight: 1, padding: 0,
-          }}>×</button>
-        </div>
+        <button onClick={onClose} style={{
+          position: 'absolute', top: 14, right: 16, zIndex: 1,
+          width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '50%',
+          cursor: 'pointer', color: 'var(--muted)', fontSize: 18, lineHeight: 1, padding: 0,
+        }}>×</button>
+
+        <div style={{ overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
         {editing ? (
           <>
@@ -121,6 +121,7 @@ function EntryModal({ entry, onClose, onSave, onDelete, saving }) {
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { adminGetReviews, adminCreateReview, adminUpdateReview, adminDeleteReview, adminPinReview, getCategories } from '../api/reviews'
 import { useAuth } from '../context/AuthContext'
@@ -105,21 +105,33 @@ function ReviewForm({ initial, onSave, onCancel, categories, loading }) {
 }
 
 export default function AdminPage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const navigate = useNavigate()
   const qc = useQueryClient()
   const [editing, setEditing] = useState(null)
 
-  if (!user?.is_admin) { navigate('/'); return null }
+  useEffect(() => {
+    if (!loading && !user?.is_admin) navigate('/')
+  }, [loading, user, navigate])
 
-  const { data: reviewsData, isLoading } = useQuery({ queryKey: ['admin-reviews'], queryFn: adminGetReviews })
+  const { data: reviewsData, isLoading } = useQuery({
+    queryKey: ['admin-reviews'],
+    queryFn: adminGetReviews,
+    enabled: !!user?.is_admin,
+  })
   const reviews = reviewsData?.items ?? []
-  const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: getCategories })
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    enabled: !!user?.is_admin,
+  })
 
   const createMut = useMutation({ mutationFn: adminCreateReview, onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-reviews'] }); setEditing(null) } })
   const updateMut = useMutation({ mutationFn: ({ slug, data }) => adminUpdateReview(slug, data), onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-reviews'] }); setEditing(null) } })
   const deleteMut = useMutation({ mutationFn: adminDeleteReview, onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-reviews'] }) })
   const pinMut    = useMutation({ mutationFn: adminPinReview,   onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-reviews'] }) })
+
+  if (loading || !user?.is_admin) return null
 
   function handleSave(form) {
     if (editing === 'new') createMut.mutate(form)

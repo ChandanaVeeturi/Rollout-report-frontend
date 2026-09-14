@@ -342,6 +342,12 @@ export default function HomePage() {
     setSearchParams(p)
   }
 
+  function setPage(pageNum) {
+    const p = new URLSearchParams(searchParams)
+    p.set('page', String(pageNum))
+    setSearchParams(p)
+  }
+
   function clearAll() {
     setSearchParams({})
   }
@@ -411,7 +417,7 @@ export default function HomePage() {
           {data?.pages > 1 && (
             <div style={{ display: 'flex', justifyContent: 'center', gap: 6, margin: '20px 0' }}>
               {[...Array(data.pages)].map((_, i) => (
-                <button key={i} onClick={() => setParam('page', String(i + 1))} style={{
+                <button key={i} onClick={() => setPage(i + 1)} style={{
                   width: 34, height: 34, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: page === i + 1 ? 'var(--accent)' : 'var(--surface)',
                   border: `1.5px solid ${page === i + 1 ? 'var(--accent)' : 'var(--border)'}`,
